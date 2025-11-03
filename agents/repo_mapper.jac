@@ -1,10 +1,5 @@
 node RepoMapper {
-    # can clone_repository;
-    # can generate_file_tree;
-    # can summarize_readme;
-    
     def clone_repository(repo_url: str) -> str {
-        # Python integration for git operations
         return py.utils.clone_repo(repo_url);
     }
     
@@ -18,9 +13,13 @@ node RepoMapper {
 
 walker clone_and_map {
     has repo_url:str;
-    
-    with entry {
-        repo_mapper = here spawn  RepoMapper;
+     obj __specs__ {
+        static has auth: bool = False;
+        static has api: bool = True;
+        static has api_method: str = "POST";
+    }
+    def local_path{
+        here spawn  RepoMapper;
         
         # Clone repository
         local_path = repo_mapper.clone_repository(repo_url);
@@ -37,4 +36,6 @@ walker clone_and_map {
             "readme_summary": readme_summary
         };
     }
+    
+    
 }

@@ -16,8 +16,12 @@ node CodeAnalyzer {
 walker analyze_codebase {
     has local_path :str;
     has file_tree: list;
-    
-    with entry {
+     obj __specs__ {
+        static has auth: bool = False;
+        static has api: bool = True;
+        static has api_method: str = "POST";
+    }
+    def code_elements {
         analyzer = here spawn CodeAnalyzer();
         
         # Identify entry points
