@@ -2,3 +2,6 @@ gitpython
 python-dotenv
 byllm
 tree_sitter
+streamlit
+jaclang
+jac-cloud
