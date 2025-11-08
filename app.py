@@ -63,7 +63,7 @@ if generate and repo_url.strip():
                 st.error(f"Backend returned error {res.status_code}: {res.text}")
 
         except requests.exceptions.RequestException as e:
-            st.error(f" Failed to connect to Jac backend: {e}")
+            st.error(" Failed to connect to Jac backend")
 else:
     st.info("👈 Enter a GitHub repo on the left and click **Generate Documentation**.")
 
