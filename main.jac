@@ -131,16 +131,16 @@ walker codegenius {
         url = self.utterance;
         self.session.add_history("user: " + url);
 
-        # --- Clone repository
+        # Clone repository
         repo_mapper = (root ++> RepoMapper())[0];
         local_path = repo_mapper.clone_and_map(url);
         self.session.add_history("cloned: " + local_path);
 
-        # --- Build file tree
+        # Build file tree
         file_tree = repo_mapper.build_file_tree();
         self.session.add_history("mapped_files_count: " + str(len(file_tree)));
 
-        # --- Find README
+        # Find README
         readme_text = "";
         for f in file_tree {
             if f.get("name", "").lower().startswith("readme") && f.get("name","").lower().endswith(".md") {
@@ -155,13 +155,13 @@ walker codegenius {
             self.session.add_history("readme_summarized");
         }
 
-        # --- Analyze code with CodeAnalyzer (Python + tree-sitter/AST)
+        #  Analyze code with CodeAnalyzer (Python + tree-sitter/AST)
         analyzer = (root ++> CodeAnalyzer())[0];
         analysis = analyzer.analyze_and_build_ccg(file_tree);
         refined_ccg = analyzer.refine_ccg(analysis);
         self.session.add_history("ccg_built");
 
-        # --- Generate docs
+        # Generate docs
         docgen = (root ++> DocGenie())[0];
         md = docgen.generate_markdown({"url": url, "path": local_path}, refined_ccg, readme_summary);
         docgen.save_markdown(md, jid(root));
@@ -171,7 +171,8 @@ walker codegenius {
             "session_id": jid(self.session),
             "repo_path": local_path,
             "doc_path": "outputs/" + jid(root) + "/docs.md",
-            "summary": readme_summary
+            "summary": readme_summary,
+            "markdown":md
         };
     }
 }

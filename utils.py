@@ -18,9 +18,9 @@ import ast
 
 def clone_repo(url: str) -> str:
     import os, subprocess, tempfile, shutil
-    base_dir = os.path.join(os.getcwd(), "tmp_repos")
+    base_dir = os.path.join(os.getcwd(), "repos")
     os.makedirs(base_dir, exist_ok=True)
-    tmp = tempfile.mkdtemp(prefix="codegen_", dir=base_dir)
+    tmp = tempfile.mkdtemp(prefix="codes", dir=base_dir)
     cmd = ["/usr/bin/git", "clone", "--depth", "1", url, tmp]
     print(f"[INFO] Cloning into {tmp}")
     try:
